@@ -14,7 +14,7 @@ function App(props) {
       <Report actionName="Work Lo-pri" callback={callback(props.reportAction, notesRef)} />
       <Report actionName="Break" callback={callback(props.reportAction, notesRef)} />
       <Report actionName="Non-Work" callback={callback(props.reportAction, notesRef)} />
-      <textarea ref={notesRef}>
+      <textarea placeholder="Notes..." ref={notesRef}>
       </textarea>
       </form>
     </main>
