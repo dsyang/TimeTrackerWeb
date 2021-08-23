@@ -2,7 +2,6 @@ function timeout(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-
 async function report(data) {
   let response = await fetch("https://TimeTrackerAPI.dsyang.repl.co/report", {
     method: "POST",
@@ -11,6 +10,14 @@ async function report(data) {
     },
     body: JSON.stringify(data)
   });
+
+  return response.json();
+}
+
+async function seeAll() {
+  let response = await fetch(
+    "https://TimeTrackerAPI.dsyang.repl.co/getall"
+  )
 
   return response.json();
 }
@@ -26,6 +33,13 @@ const module = {
     })
     .then((val) => console.log(val))
     .catch((err) => console.error(err))
+  },
+
+  getAll: function(render) {
+    seeAll()
+      .then(render)
+      .catch((err) => console.error(err))
+
   }
 }
 export default module;

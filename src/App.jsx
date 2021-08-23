@@ -1,24 +1,33 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import './App.css';
 import Report from "./Report";
 
 function App(props) {
+
+  let notesRef = useRef(null);
+  
   return (
     <main>
-      <Report actionName="Work Important" callback={callback(props.reportAction)} />
-      <Report actionName="Work Meeting" callback={callback(props.reportAction)} />
-      <Report actionName="Work Lo-pri" callback={callback(props.reportAction)} />
-      <Report actionName="Break" callback={callback(props.reportAction)} />
-      <Report actionName="Non-Work" callback={callback(props.reportAction)} />
+      <form>
+      <Report actionName="Work Important" callback={callback(props.reportAction, notesRef)} />
+      <Report actionName="Work Meeting" callback={callback(props.reportAction, notesRef)} />
+      <Report actionName="Work Lo-pri" callback={callback(props.reportAction, notesRef)} />
+      <Report actionName="Break" callback={callback(props.reportAction, notesRef)} />
+      <Report actionName="Non-Work" callback={callback(props.reportAction, notesRef)} />
+      <textarea ref={notesRef}>
+      </textarea>
+      </form>
     </main>
   );
 }
 
-function callback(api) {
+function callback(api, notesRef) {
   return (name) => {
     return (e) => {
+      e.preventDefault()
       console.log(name)
-      api(name)
+      api(name, notesRef.current.value)
+      notesRef.current.value = ""
     }
   }
 }
