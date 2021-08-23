@@ -3,41 +3,29 @@ function timeout(ms) {
 }
 
 
-async function report(json) {
-  let response = await fetch("")
-}
-
-async function asyncEval(command, id, context) {
-  let response = await fetch("https://flatval.dsyang.repl.co", {
+async function report(data) {
+  let response = await fetch("https://TimeTrackerAPI.dsyang.repl.co/report", {
     method: "POST",
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({
-      code: command,
-      contextId: context
-    })
-  })
+    body: JSON.stringify(data)
+  });
 
-  let sanitized;
-  if (response.ok) {
-    sanitized = await response.json()
-  } else if (response.status == 500) {
-    sanitized = {
-      error: await response.text()
-    }
-  }
-
-  results[id] = await constructResult(sanitized)
-  console.log(results)
-  return results;
+  return response.json();
 }
 
-
 const module = {
-  report: function(render) {
+  report: function(actionName, notes) {
     console.log("reporting")
-    render()
+    report({
+      timestamp_seconds: `${parseInt(new Date().getTime() / 1000)}`,
+      activity: actionName,
+      device_agent: navigator.userAgent,
+      notes: notes
+    })
+    .then((val) => console.log(val))
+    .catch((err) => console.error(err))
   }
 }
 export default module;

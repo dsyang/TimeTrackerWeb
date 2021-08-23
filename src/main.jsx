@@ -13,8 +13,8 @@ function render(results) {
   )
 }
 
-function report(action) {
-  Api.report(render);
+function report(actionName) {
+  Api.report(actionName);
 }
 
 render({})
